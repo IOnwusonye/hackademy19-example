@@ -33,3 +33,30 @@ class Cell():
                 neighbours.append(a_grid[r+1][c+1])
         self.neigh = neighbours
 
+    def make_alive(self):
+        self.current_state = 'x'
+
+    def is_alive(self):
+        if self.current_state == 'x':
+            return True
+        else:
+            return False
+
+    def compute_next_iteration(self):
+        alive_ne = 0
+        for ne in self.neigh:
+            if ne.is_alive() == True:
+                alive_ne = alive_ne + 1
+        if self.is_alive() == True:
+            if (alive_ne == 2 or alive_ne == 3):
+                self.next_state = 'x' #i am alive and i remain alive
+            else:
+                self.next_state = '-' #i die, either of solitude or of noise
+        else:
+            if (alive_ne == 3):
+                self.next_state = 'x'
+            else:
+                self.next_state = '-' #i was dead and i remain dead
+
+    def evolve(self):
+        self.current_state = self.next_state
